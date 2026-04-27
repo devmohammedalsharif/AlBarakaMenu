@@ -23,14 +23,14 @@
         }
     </style>
 </head>
-<body class="baraka-bg min-h-screen text-white font-sans">
+<body class="baraka-bg min-h-screen text-white font-sans overflow-x-hidden antialiased">
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js" crossorigin="anonymous"></script>
 
-<header class="sticky top-0 z-40 border-b border-white/10 bg-black/60 backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto px-4 py-3">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-3">
+<header class="sticky top-0 z-40 border-b border-white/10 bg-black/60 backdrop-blur-xl w-full min-w-0">
+    <div class="max-w-7xl mx-auto w-full min-w-0 px-3 sm:px-4 py-3">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 min-w-0 w-full">
+            <a href="{{ route('admin.dashboard') }}" class="inline-flex min-w-0 items-center gap-3 shrink-0 max-w-full">
                 <span class="inline-grid place-items-center w-11 h-11 rounded-2xl bg-gradient-to-br from-[var(--color-baraka-gold)] to-[var(--color-baraka-gold)]/60 text-[#0b0b0b] font-black shadow-[0_10px_25px_rgba(197,157,95,0.22)]">
                     ب
                 </span>
@@ -40,7 +40,7 @@
                 </span>
             </a>
 
-            <div class="flex items-center gap-2 flex-wrap">
+            <div class="flex min-w-0 w-full sm:w-auto items-stretch sm:items-center justify-end sm:justify-end gap-2 flex-wrap">
                 @auth
                     <span class="hidden sm:inline-flex items-center gap-2 rounded-full px-3 py-2 bg-white/5 border border-white/10 text-white/80 font-bold">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
@@ -57,21 +57,16 @@
                             تسجيل خروج
                         </button>
                     </form>
-                @else
-                    <a href="{{ route('admin.login') }}"
-                       class="rounded-full px-4 py-2 bg-[var(--color-baraka-gold)] text-black font-black hover:opacity-95 transition shadow-[0_12px_30px_rgba(0,0,0,0.40)]">
-                        تسجيل دخول الأدمن
-                    </a>
                 @endauth
             </div>
         </div>
     </div>
 </header>
 
-<div class="max-w-7xl mx-auto px-4 py-7">
-    <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
+<div class="max-w-7xl mx-auto w-full min-w-0 px-3 sm:px-4 py-4 sm:py-7">
+    <div class="grid w-full min-w-0 grid-cols-1 lg:grid-cols-[minmax(0,280px)_1fr] gap-4">
         @auth
-            <aside class="rounded-[18px] border border-white/10 bg-[var(--color-baraka-surface)]/70 backdrop-blur-xl p-4 shadow-[0_12px_30px_rgba(0,0,0,0.40)]">
+            <aside class="min-w-0 rounded-[18px] border border-white/10 bg-[var(--color-baraka-surface)]/70 backdrop-blur-xl p-4 shadow-[0_12px_30px_rgba(0,0,0,0.40)]">
                 <div class="mb-3 rounded-[14px] border border-white/10 bg-black/20 p-3">
                     <div class="text-white/70 text-sm font-bold">تنقل سريع</div>
                     <div class="text-[var(--color-baraka-gold)] font-black">إدارة القائمة</div>
@@ -93,7 +88,10 @@
             </aside>
         @endauth
 
-        <main class="rounded-[18px] border border-white/10 bg-[var(--color-baraka-surface)]/70 backdrop-blur-xl p-5 shadow-[0_18px_50px_rgba(0,0,0,0.55)]">
+        <main @class([
+            'min-w-0 w-full max-w-full rounded-[18px] border border-white/10 bg-[var(--color-baraka-surface)]/70 backdrop-blur-xl p-4 sm:p-5 shadow-[0_18px_50px_rgba(0,0,0,0.55)]',
+            'lg:col-span-2' => !auth()->check(),
+        ])>
             @if(session('success'))
                 <div class="mb-4 rounded-[14px] border border-white/10 bg-white/5 px-4 py-3">
                     {{ session('success') }}

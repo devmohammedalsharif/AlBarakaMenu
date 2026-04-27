@@ -3,9 +3,9 @@
 @section('title', 'تسجيل دخول الأدمن | البركة')
 
 @section('content')
-    <div class="max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
-            <div class="rounded-[18px] border border-white/10 bg-black/25 overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,0.40)]">
+    <div class="w-full min-w-0 max-w-4xl mx-auto">
+        <div class="grid w-full min-w-0 grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 items-stretch">
+            <div class="min-w-0 rounded-[18px] border border-white/10 bg-black/25 overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,0.40)]">
                 <div class="p-5">
                     <div class="inline-flex items-center gap-3 rounded-full px-4 py-2 border border-white/10 bg-black/25 backdrop-blur">
                         <span class="inline-grid place-items-center w-11 h-11 rounded-2xl bg-gradient-to-br from-[var(--color-baraka-gold)] to-[var(--color-baraka-gold)]/60 text-[#0b0b0b] font-black">
@@ -38,7 +38,7 @@
                 <div class="h-28 bg-gradient-to-b from-transparent to-black/40"></div>
             </div>
 
-            <div class="rounded-[18px] border border-white/10 bg-[var(--color-baraka-surface)]/60 backdrop-blur-xl p-5 shadow-[0_18px_50px_rgba(0,0,0,0.55)]">
+            <div class="min-w-0 rounded-[18px] border border-white/10 bg-[var(--color-baraka-surface)]/60 backdrop-blur-xl p-4 sm:p-5 shadow-[0_18px_50px_rgba(0,0,0,0.55)]">
                 <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-4">
                     @csrf
 
@@ -46,7 +46,7 @@
                         <label class="block text-white font-extrabold mb-2">البريد الإلكتروني</label>
                         <input type="email" name="email" value="{{ old('email') }}"
                                class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3 text-white outline-none focus:border-[var(--color-baraka-gold)] focus:ring-2 focus:ring-[var(--color-baraka-gold)]/20"
-                               placeholder="admin@albraka.test" required>
+                               placeholder="admin@ahmed.com" required>
                         @error('email')
                         <div class="mt-2 text-sm font-bold text-[var(--color-baraka-red)]">{{ $message }}</div>
                         @enderror
@@ -62,7 +62,7 @@
                         @enderror
                     </div>
 
-                    <div class="flex items-center justify-between gap-3 flex-wrap">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                         <label class="inline-flex items-center gap-2 text-white/80 font-bold">
                             <input type="checkbox" name="remember" value="1" class="accent-[var(--color-baraka-gold)]">
                             تذكرني
