@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Cairo', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-baraka-charcoal: #0c0c0c;
+    --color-baraka-surface: #121212;
+    --color-baraka-card: #161616;
+    --color-baraka-gold: #c59d5f;
+    --color-baraka-red: #e74c3c;
+    --color-baraka-orange: #f59e0b;
+}
+
+[x-cloak] { display: none !important; }
