@@ -285,7 +285,7 @@
                         <div class="card-content">
                             <div class="title-row">
                                 <h3>{{ $meal->name }}</h3>
-                                <span class="price-box">{{ rtrim(rtrim(number_format((float)$meal->price, 2), '0'), '.') }} ₪</span>
+                                <span class="price-box"><span class="tabular-nums">{{ rtrim(rtrim(number_format((float)$meal->price, 2), '0'), '.') }}</span> شيكل</span>
                             </div>
                             @if($meal->description)
                                 <div class="subtitle">{{ $meal->description }}</div>

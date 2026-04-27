@@ -56,8 +56,9 @@
                     <td class="py-3 px-3 font-extrabold">{{ $meal->name }}</td>
                     <td class="py-3 px-3 text-white/80">{{ $meal->category?->name }}</td>
                     <td class="py-3 px-3">
-                        <span class="inline-flex items-center rounded-full bg-[var(--color-baraka-gold)] text-black px-3 py-1 font-black">
-                            {{ number_format((float)$meal->price, 2) }}
+                        <span class="inline-flex items-center gap-1 rounded-full bg-[var(--color-baraka-gold)] text-black px-3 py-1 font-black">
+                            <span class="tabular-nums">{{ number_format((float)$meal->price, 2) }}</span>
+                            <span class="font-black">شيكل</span>
                         </span>
                     </td>
                     <td class="py-3 px-3">
