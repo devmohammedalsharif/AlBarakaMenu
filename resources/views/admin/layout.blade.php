@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['public/css/app.css', 'public/js/app.js'])
 
     <style>
         .baraka-bg {
@@ -25,7 +25,7 @@
 </head>
 <body class="baraka-bg min-h-screen text-white font-sans">
 
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js" crossorigin="anonymous"></script>
 
 <header class="sticky top-0 z-40 border-b border-white/10 bg-black/60 backdrop-blur-xl">
     <div class="max-w-7xl mx-auto px-4 py-3">

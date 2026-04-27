@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+    # Optional: if your host allows it (some plans forbid this and return 500 — remove the line)
+    # Options +FollowSymLinks
+
+    # Visitors using /public/... get a clean URL (301)
+    RewriteCond %{THE_REQUEST} \s/public/ [NC]
+    RewriteRule ^public/(.*)$ /$1 [R=301,L,NE,NC]
+
+    # Internal: everything else is served from the Laravel public/ folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
