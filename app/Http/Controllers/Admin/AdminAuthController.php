@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AdminAuthController extends Controller
@@ -16,12 +17,17 @@ class AdminAuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        $credentials = [
+            'email' => Str::lower(trim($validated['email'])),
+            'password' => $validated['password'],
+        ];
+
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => 'بيانات الدخول غير صحيحة.',
             ]);
@@ -29,7 +35,7 @@ class AdminAuthController extends Controller
 
         $request->session()->regenerate();
 
-        if (!($request->user()?->is_admin)) {
+        if (! ($request->user()?->is_admin)) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
@@ -52,4 +58,3 @@ class AdminAuthController extends Controller
         return redirect()->route('admin.login');
     }
 }
-

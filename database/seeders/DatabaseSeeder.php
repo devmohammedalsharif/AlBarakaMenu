@@ -15,13 +15,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->updateOrCreate(
-            ['email' => 'admin@ahmed.com'],
-            [
+        $email = 'ahmed@admin.com';
+        $password = 'ahmedAdmin';
+
+        $user = User::query()->where('email', $email)->first();
+        if ($user !== null) {
+            $user->update([
                 'name' => 'Admin',
-                'password' => 'ahmed',
+                'password' => $password,
                 'is_admin' => true,
-            ],
-        );
+            ]);
+
+            return;
+        }
+
+        foreach (['admin@ahmed.com', 'admin@albraka.test'] as $legacyEmail) {
+            $legacy = User::query()->where('email', $legacyEmail)->first();
+            if ($legacy !== null) {
+                $legacy->update([
+                    'email' => $email,
+                    'name' => 'Admin',
+                    'password' => $password,
+                    'is_admin' => true,
+                ]);
+
+                return;
+            }
+        }
+
+        User::query()->create([
+            'name' => 'Admin',
+            'email' => $email,
+            'password' => $password,
+            'is_admin' => true,
+        ]);
     }
 }

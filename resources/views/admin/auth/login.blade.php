@@ -46,7 +46,7 @@
                         <label class="block text-white font-extrabold mb-2">البريد الإلكتروني</label>
                         <input type="email" name="email" value="{{ old('email') }}"
                                class="w-full rounded-2xl bg-black/30 border border-white/10 px-4 py-3 text-white outline-none focus:border-[var(--color-baraka-gold)] focus:ring-2 focus:ring-[var(--color-baraka-gold)]/20"
-                               placeholder="admin@ahmed.com" required>
+                               placeholder="ahmed@admin.com" required>
                         @error('email')
                         <div class="mt-2 text-sm font-bold text-[var(--color-baraka-red)]">{{ $message }}</div>
                         @enderror
