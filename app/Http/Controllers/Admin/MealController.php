@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Meal;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -109,25 +111,66 @@ class MealController extends Controller
         if ($request->hasFile('image')) {
             $this->deleteStoredImageIfLocal($previous);
 
-            $path = $request->file('image')->store('meals', 'public');
+            $file = $request->file('image');
+            if (! $file instanceof UploadedFile) {
+                return (string) $request->string('image_url');
+            }
 
-            return Storage::disk('public')->url($path);
+            // Preferred: store on the "public" disk (storage/app/public) and serve via /storage symlink.
+            // Fallback: if shared hosting doesn't allow `php artisan storage:link`, store directly under /public/uploads.
+            if ($this->canServeFromPublicDisk()) {
+                $path = $file->store('meals', 'public');
+
+                return Storage::disk('public')->url($path);
+            }
+
+            $relative = $this->storeInPublicUploads($file);
+
+            return asset($relative);
         }
 
         return (string) $request->string('image_url');
     }
 
+    private function canServeFromPublicDisk(): bool
+    {
+        $publicStoragePath = public_path('storage');
+
+        return is_link($publicStoragePath) || is_dir($publicStoragePath);
+    }
+
+    private function storeInPublicUploads(UploadedFile $file): string
+    {
+        $directory = public_path('uploads/meals');
+        File::ensureDirectoryExists($directory);
+
+        $name = $file->hashName();
+        $file->move($directory, $name);
+
+        return "uploads/meals/{$name}";
+    }
+
     private function deleteStoredImageIfLocal(?string $imagePath): void
     {
-        if (!$imagePath) {
+        if (! $imagePath) {
             return;
         }
 
-        $prefix = Storage::disk('public')->url('/');
-        if (str_starts_with($imagePath, $prefix)) {
-            $relative = ltrim(str_replace($prefix, '', $imagePath), '/');
+        $publicDiskPrefix = Storage::disk('public')->url('/');
+        if (str_starts_with($imagePath, $publicDiskPrefix)) {
+            $relative = ltrim(str_replace($publicDiskPrefix, '', $imagePath), '/');
             Storage::disk('public')->delete($relative);
+
+            return;
+        }
+
+        $uploadsPrefix = asset('uploads').'/';
+        if (str_starts_with($imagePath, $uploadsPrefix)) {
+            $relative = ltrim(str_replace(asset('/'), '', $imagePath), '/');
+            $absolute = public_path($relative);
+            if (is_file($absolute)) {
+                File::delete($absolute);
+            }
         }
     }
 }
-
