@@ -12,11 +12,31 @@ class AdminAuthController extends Controller
 {
     public function showLogin()
     {
+        if (Auth::check()) {
+            if (Auth::user()?->is_admin) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+            Auth::logout();
+        }
+
         return view('admin.auth.login');
     }
 
     public function login(Request $request)
     {
+        if (Auth::check()) {
+            if (Auth::user()?->is_admin) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
         $validated = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
